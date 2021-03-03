@@ -21,8 +21,6 @@ class CallLogService:
             if data['event'] == 'NewCall':
                 data['call_type'] = 'outbound'
 
-            # print(data)
-            # self.create_call_logs(data)
         except IndexError:
             print("Failed to log the call details")
 
@@ -31,35 +29,20 @@ class CallLogService:
         user_phone = data['called_number']
 
         call_log = models.CallLog(
-            # registration_id =  data[''],
-            # user_id =  data[''],
-            # flow_run_uuid = data['run_uuid'],
             call_sid = data['call_sid'],
-            # call_type =  data['call_type'],
             call_type =  'Outbound',
-            # scheduled_by =  data[''],
             user_phone_number =  data['called_number'],
             system_phone_number = data['system_phone'],
             listen_seconds = data['total_call_duration'],
             circle = data['circle'],
+            # TODO: Need to map the below fields with the details coming from RapidPro
+            # registration_id =  data[''],
+            # user_id =  data[''],
+            # flow_run_uuid = data['run_uuid'],
+            # call_type =  data['call_type'],
+            # scheduled_by =  data[''],
             # status = data[''],
             
         )
         db.session.add(call_log)
         db.session.commit()
-
-    # id = db.Column(db.Integer, primary_key=True)    
-    # user_module_content_id = db.Column(db.Integer, db.ForeignKey('user_module_content.id'))
-    # call_sid = db.Column(db.Integer)
-    # flow_run_uuid = db.Column(db.String(255))
-    # call_type = db.Column(db.String(50))
-    # scheduled_by = db.Column(db.String(100))
-    # user_phone_number = db.Column(db.String(50), nullable=False)
-    # system_phone_number = db.Column(db.String(50))
-    # circle = db.Column(db.String(50))
-    # status = db.Column(db.String(50))
-    # listen_seconds = db.Column(db.String(50))
-    # recording_url  = db.Column(db.String(1000))
-    # dial_time = db.Column(db.DateTime)
-    # start_time = db.Column(db.DateTime)
-    # end_time = db.Column(db.DateTime)
