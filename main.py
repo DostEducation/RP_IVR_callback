@@ -3,10 +3,11 @@ from api import models, db, services
 
 def callback(request):
     try:
-        call_log_event_service = services.CallLogEventService()
-        call_log_event_service.handle_call_log_event(request)
-        print("Done updating...")
-        
+        if(request.method == 'POST'):
+            call_log_event_service = services.CallLogEventService()
+            call_log_event_service.handle_call_log_event(request)
+        else:
+            return jsonify(message="Currently, the system do not accept a GET request"), 405
     except IndexError:
-        print("Failed to update")
+        return jsonify(message="Something went wrong!"), 400
     return 'Success'

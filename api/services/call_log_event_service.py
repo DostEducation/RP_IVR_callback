@@ -1,29 +1,24 @@
 # This file is treated as service layer
-from api import models, db, helpers
+from api import models, db
 
 class CallLogEventService:
     ### Main function, used to getting called from cloud function
     def handle_call_log_event(self, request):
         try:
-            multi_dict = request.args
             data = {}
-
-            data['sid'] = helpers.fetch_by_key('sid', multi_dict)
-            data['cid'] = helpers.fetch_by_key('cid', multi_dict)
-            data['cid_e164'] = helpers.fetch_by_key('cid_e164', multi_dict)
-            data['called_number'] = helpers.fetch_by_key('called_number', multi_dict)
-            data['event'] = helpers.fetch_by_key('event', multi_dict)
-            data['data'] = helpers.fetch_by_key('data', multi_dict)
-            data['callduration'] = helpers.fetch_by_key('callduration', multi_dict)
-            data['record_duration'] = helpers.fetch_by_key('record_duration', multi_dict)
-            data['total_call_duration'] = helpers.fetch_by_key('total_call_duration', multi_dict)
-            data['process'] = helpers.fetch_by_key('process', multi_dict)
-            data['status'] = helpers.fetch_by_key('status', multi_dict)
-            data['telco_code'] = helpers.fetch_by_key('telco_code', multi_dict)
-            data['outbound_sid'] = helpers.fetch_by_key('outbound_sid', multi_dict)
-            data['circle'] = helpers.fetch_by_key('circle', multi_dict)
-            data['operator'] = helpers.fetch_by_key('operator', multi_dict)
-
+            data['call_sid'] = request.args.get('CallSid')
+            data['account_sid'] = request.args.get('AccountSid')
+            data['from_number'] = request.args.get('From')
+            data['to_number'] = request.args.get('To')
+            data['call_status'] = request.args.get('CallStatus')
+            data['direction'] = request.args.get('Direction')
+            data['parent_call_sid'] = request.args.get('ParentCallSid')
+            data['telco_code'] = request.args.get('TelcoCode')
+            data['telco_status'] = request.args.get('TelcoStatus')
+            data['dial_time'] = request.args.get('DialTime')
+            data['pick_time'] = request.args.get('PickTime')
+            data['end_time'] = request.args.get('EndTime')
+            data['duration'] = request.args.get('Duration')
             self.create_call_log_event(data)
             
         except IndexError:
@@ -32,21 +27,19 @@ class CallLogEventService:
     # Create a call log event
     def create_call_log_event(self, data):
         call_log_event = models.CallLogEvent(
-            sid = data['sid'],
-            cid = data['cid'],
-            cid_e164 = data['cid_e164'],
-            called_number = data['called_number'],
-            event = data['event'],
-            data = data['data'],
-            callduration = data['callduration'],
-            record_duration = data['record_duration'],
-            total_call_duration = data['total_call_duration'],
-            process = data['process'],
-            status = data['status'],
+            call_sid = data['call_sid'],
+            account_sid = data['account_sid'],
+            from_number = data['from_number'],
+            to_number = data['to_number'],
+            call_status = data['call_status'],
+            direction = data['direction'],
+            parent_call_sid = data['parent_call_sid'], 
             telco_code = data['telco_code'],
-            outbound_sid  = data['outbound_sid'],
-            circle = data['circle'],
-            operator = data['operator'],
+            telco_status = data['telco_status'],
+            dial_time = data['dial_time'],
+            pick_time = data['pick_time'],
+            end_time = data['end_time'],
+            duration = data['duration'],
         )
         db.session.add(call_log_event)
         db.session.commit()
