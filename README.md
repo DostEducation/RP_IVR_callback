@@ -1,6 +1,7 @@
 # RP IVR Callback
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![](https://github.com/DostEducation/RP_IVR_callback/actions/workflows/pre-commit.yml/badge.svg)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 This is a cloud function that receives a callback from telephony systems to capture the details of a call. Currently it support Ozonetel's Kookoo telephony system.
