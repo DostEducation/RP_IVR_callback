@@ -12,8 +12,8 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Set calback payload '...'
-2. Trigger callbak '....'
+1. Set Callback payload '...'
+2. Trigger Callback '....'
 3. See the error
 
 **Expected behavior**
@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 **Environment (please complete the following information):**
  - OS: [e.g. iOS]
  - Version [e.g. 22]
- - Callbck Payload ``` here```
+ - Callback Payload ``` here```
 
 **Additional context**
 Add any other context about the problem here.
