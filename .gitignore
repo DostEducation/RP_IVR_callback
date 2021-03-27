@@ -1,0 +1,14 @@
+*.pyc
+__pycache__/
+
+.pytest_cache/
+htmlcov/
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+.vscode
+.DS_Store
