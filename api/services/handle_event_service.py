@@ -43,7 +43,8 @@ class HandleEventService:
                     data["pick_time"] = request.form["PickTime"]
 
             call_log_event.CallLogEventService.create_call_log_event(self, data)
-            registration.RegistrationService.create_registration(self, data)
+            if data["call_status"] == "Missed":
+                registration.RegistrationService.create_registration(self, data)
 
         except IndexError:
             print("Failed to log the call details")
