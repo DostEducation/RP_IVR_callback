@@ -6,7 +6,5 @@ class PartnerSystemPhone(TimestampMixin, db.Model):
     __tablename__ = "partner_system_phone"
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String(50))
-    partner_id = db.Column(db.Integer, db.ForeignKey("partner.id", ondelete="CASCADE"))
-    system_phone_id = db.Column(
-        db.Integer, db.ForeignKey("system_phone.id", ondelete="CASCADE")
-    )
+    partner_id = db.Column(db.Integer, db.ForeignKey("partner.id"))
+    system_phone_id = db.Column(db.Integer, db.ForeignKey("system_phone.id"))

@@ -30,16 +30,10 @@ class HandleEventService:
                 data["end_time"] = request.form["EndTime"]
                 data["duration"] = request.form["Duration"]
 
-                if (
-                    (data["call_status"] != "NoAnswer")
-                    and (data["call_status"] != "MaxDialTimeExceeded")
-                    and (data["call_status"] != "NetworkOutOfOrder")
-                    and (data["call_status"] != "Busy")
-                    and (data["call_status"] != " Rejected")
-                    and (data["call_status"] != " NormalUnspecified")
-                    and (data["call_status"] != " RecoveryTimerOnExpiry")
-                    and (data["call_status"] != " InvalidNumber")
-                ):
+                """PickTime is available only when the call is answered.
+                The telco code for answered calls is 16.
+                """
+                if request.form["TelcoCode"] == 16:
                     data["pick_time"] = request.form["PickTime"]
 
             call_log_event.CallLogEventService.create_call_log_event(self, data)

@@ -15,4 +15,4 @@ class Program(TimestampMixin, db.Model):
     district = db.Column(db.String(100), nullable=True)
     state = db.Column(db.String(100), nullable=True)
     country = db.Column(db.String(50), nullable=True)
-    partner = db.Column(db.Integer, db.ForeignKey("partner.id", ondelete="CASCADE"))
+    partner = db.Column(db.Integer, db.ForeignKey("partner.id"))

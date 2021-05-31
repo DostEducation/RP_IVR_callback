@@ -22,9 +22,9 @@ class Registration(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_phone = db.Column(db.String(50))
     system_phone = db.Column(db.String(50))
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"))
-    partner_id = db.Column(db.Integer, db.ForeignKey("partner.id", ondelete="CASCADE"))
-    program_id = db.Column(db.Integer, db.ForeignKey("program.id", ondelete="CASCADE"))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    partner_id = db.Column(db.Integer, db.ForeignKey("partner.id"))
+    program_id = db.Column(db.Integer, db.ForeignKey("program.id"))
     district = db.Column(db.String(100), nullable=True)
     state = db.Column(db.String(100), nullable=True)
     parent_type = db.Column(

@@ -5,7 +5,7 @@ from api import models, db
 
 
 class RegistrationService:
-    # Create a registartion
+    # Create a registration
     def create_registration(self, data):
 
         url_decoded_system_phone = requests.utils.unquote(data["to_number"])
