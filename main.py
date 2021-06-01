@@ -6,8 +6,8 @@ from flask import jsonify, request
 def callback(request):
     try:
         if request.method == "POST":
-            call_log_event_service = services.CallLogEventService()
-            call_log_event_service.handle_call_log_event(request)
+            service = services.HandleEventService()
+            service.handle_event_service(request)
         else:
             return (
                 jsonify(message="Currently, the system do not accept a GET request"),

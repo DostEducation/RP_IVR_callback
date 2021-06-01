@@ -4,51 +4,6 @@ from api import models, db
 
 
 class CallLogEventService:
-    def handle_call_log_event(self, request):
-        try:
-            data = {}
-            data["call_sid"] = request.form["CallSid"]
-            data["account_sid"] = request.form["AccountSid"]
-            data["from_number"] = request.form["From"]
-            data["to_number"] = request.form["To"]
-            data["call_status"] = request.form["CallStatus"]
-            data["direction"] = request.form["Direction"]
-            data["parent_call_sid"] = request.form["ParentCallSid"]
-
-            data["telco_code"] = None
-            data["telco_status"] = None
-            data["dial_time"] = None
-            data["pick_time"] = None
-            data["end_time"] = None
-            data["duration"] = None
-
-            if data["call_status"] != "Missed":
-                data["telco_code"] = request.form["TelcoCode"]
-                data["telco_status"] = request.form["TelcoStatus"]
-                data["dial_time"] = request.form["DialTime"]
-                data["end_time"] = request.form["EndTime"]
-                data["duration"] = request.form["Duration"]
-
-                if (
-                    (data["call_status"] != "NoAnswer")
-                    and (data["call_status"] != "MaxDialTimeExceeded")
-                    and (data["call_status"] != "NetworkOutOfOrder")
-                    and (data["call_status"] != "Busy")
-                    and (data["call_status"] != " Rejected")
-                    and (data["call_status"] != " NormalUnspecified")
-                    and (data["call_status"] != " RecoveryTimerOnExpiry")
-                    and (data["call_status"] != " InvalidNumber")
-                ):
-                    data["pick_time"] = request.form["PickTime"]
-
-            print("call sid received:")
-            print(data["call_sid"])
-
-            self.create_call_log_event(data)
-
-        except IndexError:
-            print("Failed to log the call details")
-
     # Create a call log event
     def create_call_log_event(self, data):
         call_log_event = models.CallLogEvent(
