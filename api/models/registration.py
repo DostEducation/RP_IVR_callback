@@ -16,7 +16,6 @@ class Registration(TimestampMixin, db.Model):
     area_type = db.Column(db.String(255), nullable=True)
     is_child_between_0_3 = db.Column(db.Boolean, nullable=True)
     is_child_between_3_6 = db.Column(db.Boolean, nullable=True)
-    is_child_between_3_6 = db.Column(db.Boolean, nullable=True)
     is_child_above_6 = db.Column(db.Boolean, nullable=True)
     has_no_child = db.Column(db.Boolean, nullable=True)
     has_smartphone = db.Column(db.Boolean, nullable=True)

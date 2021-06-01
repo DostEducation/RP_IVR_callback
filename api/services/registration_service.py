@@ -34,7 +34,7 @@ class RegistrationService:
             status="pending",
             partner_id=partner.id,
             state=system_phone.state,
-            has_dropped_missedcall=1,
+            has_dropped_missedcall=True,
         )
         db.session.add(registration)
         db.session.commit()
