@@ -5,30 +5,27 @@ from api import models, db
 
 
 class RegistrationService:
-    # Create a registration
+    # Create a registartion
     def create_registration(self, data):
 
         url_decoded_system_phone = requests.utils.unquote(data["to_number"])
-        system_phone_exists = db.session.query(
-            db.exists().where(models.SystemPhone.phone == url_decoded_system_phone)
-        ).scalar()
 
-        if not system_phone_exists:
-            return
-
-        system_phone_data = models.SystemPhone.query.filter_by(
+        system_phone = models.SystemPhone.query.filter_by(
             phone=url_decoded_system_phone
         ).first()
 
+        if system_phone is None:
+            return
+
         partner = models.PartnerSystemPhone.query.filter_by(
-            system_phone_id=system_phone_data.id
+            system_phone_id=system_phone.id
         ).first()
 
-        user_exists = db.session.query(
+        registration_exists = db.session.query(
             db.exists().where(models.Registration.user_phone == data["from_number"])
         ).scalar()
 
-        if user_exists:
+        if registration_exists:
             return
 
         registration = models.Registration(
@@ -36,8 +33,8 @@ class RegistrationService:
             system_phone=url_decoded_system_phone,
             status="pending",
             partner_id=partner.id,
-            state=system_phone_data.state,
-            has_dropped_missedcall=1,
+            state=system_phone.state,
+            has_dropped_missedcall=True,
         )
         db.session.add(registration)
         db.session.commit()
