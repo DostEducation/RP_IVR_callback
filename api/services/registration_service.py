@@ -32,7 +32,7 @@ class RegistrationService:
             user_phone=data["from_number"],
             system_phone=url_decoded_system_phone,
             status="pending",
-            partner_id=partner.id,
+            partner_id=partner.partner_id,
             state=system_phone.state,
             has_dropped_missedcall=True,
         )
