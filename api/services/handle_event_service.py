@@ -1,3 +1,4 @@
+import requests
 from flask import request
 from api import models, db
 from . import registration_service as registration
@@ -6,12 +7,29 @@ from . import call_log_event_service as call_log_event
 
 class HandleEventService:
     def handle_event_service(self, request):
+
+        call_sid_exist = db.session.query(
+            db.exists().where(models.CallLogEvent.call_sid == request.form["CallSid"])
+        ).scalar()
+
+        if call_sid_exist:
+            return
+
+        url_decoded_system_phone = requests.utils.unquote(request.form["To"])
+
+        system_phone_exists = db.session.query(
+            db.exists().where(models.SystemPhone.phone == url_decoded_system_phone)
+        ).scalar()
+
+        if not system_phone_exists:
+            return
+
         try:
             data = {}
             data["call_sid"] = request.form["CallSid"]
             data["account_sid"] = request.form["AccountSid"]
             data["from_number"] = request.form["From"]
-            data["to_number"] = request.form["To"]
+            data["to_number"] = url_decoded_system_phone
             data["call_status"] = request.form["CallStatus"]
             data["direction"] = request.form["Direction"]
             data["parent_call_sid"] = request.form["ParentCallSid"]
