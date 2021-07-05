@@ -31,7 +31,7 @@ jobs:
 
     - name: Setting up FLASK_APP
       run: |
-        FLASK_APP=api/__init__.py
+        export FLASK_APP=api/__init__.py
 
     - name: Migrations
       run: |
