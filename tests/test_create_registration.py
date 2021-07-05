@@ -6,8 +6,7 @@ from unittest.mock import Mock
 
 
 class TestCreateRegistartion:
-    def test_create_registration(self, mocker):
-
+    def mocked_data(self):
         data = {
             "call_sid": "9182161650233761",
             "account_sid": "123456789123",
@@ -24,14 +23,10 @@ class TestCreateRegistartion:
             "duration": None,
         }
 
-        # system_phone_data = models.SystemPhone.query.filter_by(
-        #     phone=data["to_number"]
-        # ).first()
+        return data
 
-        # partner = models.PartnerSystemPhone.query.filter_by(
-        #     system_phone_id=system_phone_data.id
-        # ).first()
-
+    def test_create_registration_if_user_not_exist(self, mocker):
+        data = self.mocked_data()
         registration = models.Registration(
             user_phone=data["from_number"],
             system_phone=data["to_number"],
@@ -48,3 +43,23 @@ class TestCreateRegistartion:
 
         assert mocked_add.called
         assert mocked_commit.called
+
+    def test_create_registration_if_user_exist(self, mocker):
+        data = self.mocked_data()
+        data["from_number"] = "1234567890"
+        registration = models.Registration(
+            user_phone=data["from_number"],
+            system_phone=data["to_number"],
+            status="pending",
+            partner_id=1,
+            state="UP",
+            has_dropped_missedcall=True,
+        )
+
+        mocked_add = mocker.patch("api.db.session.add", return_value=True)
+        mocked_commit = mocker.patch("api.db.session.commit", return_value=True)
+
+        registration_service.RegistrationService.create_registration(self, data)
+
+        assert not mocked_add.called
+        assert not mocked_commit.called
