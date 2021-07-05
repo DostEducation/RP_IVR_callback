@@ -1,8 +1,8 @@
 name: Python application
 
 on:
-  commit:
-    branches: [ main]
+  push:
+    branches: [ unit-testing]
   pull_request:
     branches: [ main ]
 
