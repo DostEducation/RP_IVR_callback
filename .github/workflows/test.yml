@@ -35,7 +35,7 @@ jobs:
 
     - name: Migrations
       run: |
-        echo $FLASK_APP
+        printenv
         flask db migrate
 
     - name: Upgrade DB
