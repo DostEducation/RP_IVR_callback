@@ -8,8 +8,8 @@ def callback(request):
         if request.method == "POST":
             jsonData = request.get_json()
             transaction_log_service = services.TransactionLogService()
-            ivr_transaction_log = transaction_log_service.create_new_webhook_log(
-                jsonData
+            ivr_transaction_log = (
+                transaction_log_service.create_new_ivr_transaction_log(jsonData)
             )
             service = services.HandleEventService()
             service.handle_event_service(request)
