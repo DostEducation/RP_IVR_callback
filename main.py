@@ -6,8 +6,16 @@ from flask import jsonify, request
 def callback(request):
     try:
         if request.method == "POST":
+            jsonData = request.get_json()
+            transaction_log_service = services.TransactionLogService()
+            ivr_transaction_log = transaction_log_service.create_new_webhook_log(
+                jsonData
+            )
             service = services.HandleEventService()
             service.handle_event_service(request)
+            transaction_log_service.mark_ivr_transaction_log_as_processed(
+                ivr_transaction_log
+            )
         else:
             return (
                 jsonify(message="Currently, the system do not accept a GET request"),
