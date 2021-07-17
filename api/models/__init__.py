@@ -6,3 +6,4 @@ from .program import *
 from .user import *
 from .system_phone import *
 from .partner_system_phone import *
+from .ivr_callback_transaction_log import *
