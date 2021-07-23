@@ -32,15 +32,15 @@ jobs:
     - name: Setting up FLASK_APP
       run: |
         # export FLASK_APP=api/__init__.py
-        echo "FLASK_APP=api/__init__.py" >> $GITHUB_ENV
+        echo "FLASK_APP=migration/__init__.py" >> $GITHUB_ENV
 
     - name: Migrations
       run: |
-        flask db migrate
+        flask migrate
 
-    - name: Upgrade DB
-      run: |
-        flask db upgrade
+    # - name: Upgrade DB
+    #   run: |
+    #     flask db upgrade
 
     - name: Seed
       run: |
