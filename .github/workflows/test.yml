@@ -52,7 +52,7 @@ jobs:
         # export FLASK_APP=api/__init__.py
         echo "FLASK_APP=migration/__init__.py" >> $GITHUB_ENV
 
-    - name: Migrations
+    - name: Run Test Cases
       env:
         DB_HOST: 127.0.0.1
         DB_PORT: 5432
@@ -62,6 +62,7 @@ jobs:
       run: |
         flask migrate
         flask db seed
+        pytest
 
     # - name: Upgrade DB
     #   run: |
@@ -70,7 +71,3 @@ jobs:
     # - name: Seed
       # run: |
         # flask db seed
-
-    - name: Test with pytest
-      run: |
-        pytest
