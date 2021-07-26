@@ -61,14 +61,15 @@ jobs:
         DB_PASSWORD: postgres
       run: |
         flask migrate
+        flask db seed
 
     # - name: Upgrade DB
     #   run: |
     #     flask db upgrade
 
-    - name: Seed
-      run: |
-        flask db seed
+    # - name: Seed
+      # run: |
+        # flask db seed
 
     - name: Test with pytest
       run: |
