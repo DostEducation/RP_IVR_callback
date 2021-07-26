@@ -18,8 +18,8 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PORT: 5432
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github_actions_testing
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -52,6 +52,13 @@ jobs:
         # export FLASK_APP=api/__init__.py
         echo "FLASK_APP=migration/__init__.py" >> $GITHUB_ENV
 
+    - name: Setting up env for testing
+      env:
+            DB_HOST: 127.0.0.1
+            DB_PORT: 5432
+            DB_NAME: github_actions_testing
+            DB_USER: postgres
+            DB_PASSWORD: postgres
     - name: Migrations
       run: |
         flask migrate
