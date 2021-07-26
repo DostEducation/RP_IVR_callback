@@ -6,10 +6,10 @@ from flask import jsonify, request
 def callback(request):
     try:
         if request.method == "POST":
-            jsonData = request.get_json()
+            formData = request.form
             transaction_log_service = services.TransactionLogService()
             ivr_transaction_log = (
-                transaction_log_service.create_new_ivr_transaction_log(jsonData)
+                transaction_log_service.create_new_ivr_transaction_log(formData)
             )
             service = services.HandleEventService()
             service.handle_event_service(request)
