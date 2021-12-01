@@ -16,3 +16,12 @@ class TransactionLogService(object):
         ivr_transaction_log.processed = True
         db.session.add(ivr_transaction_log)
         db.session.commit()
+
+    def get_failed_ivr_transaction_log(self):
+        failed_ivr_transaction_logs = (
+            models.IvrCallbackTransactionLog.query.filter_by(processed=False)
+            .limit(1000)
+            .all()
+        )
+
+        return failed_ivr_transaction_logs
