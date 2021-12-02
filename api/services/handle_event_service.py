@@ -41,7 +41,7 @@ class HandleEventService:
             data["duration"] = None
 
             if log_created_on:
-                data["created_on"] = log_created_on
+                data["log_created_on"] = log_created_on
 
             if data["call_status"] != "Missed":
                 data["telco_code"] = form_data["TelcoCode"]

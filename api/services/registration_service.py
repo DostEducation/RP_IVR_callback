@@ -1,6 +1,6 @@
 # This file is treated as service layer
-from flask import request
 from api import models, db
+from datetime import datetime
 
 
 class RegistrationService:
@@ -23,24 +23,16 @@ class RegistrationService:
         if registration_exists:
             return
 
-        if data.get("created_on", None):
-            registration = models.Registration(
-                user_phone=data["from_number"],
-                system_phone=data["to_number"],
-                status="pending",
-                partner_id=partner.partner_id,
-                state=system_phone_data.state,
-                has_dropped_missedcall=True,
-                created_on=data["created_on"],
-            )
-        else:
-            registration = models.Registration(
-                user_phone=data["from_number"],
-                system_phone=data["to_number"],
-                status="pending",
-                partner_id=partner.partner_id,
-                state=system_phone_data.state,
-                has_dropped_missedcall=True,
-            )
+        registration = models.Registration(
+            user_phone=data["from_number"],
+            system_phone=data["to_number"],
+            status="pending",
+            partner_id=partner.partner_id,
+            state=system_phone_data.state,
+            has_dropped_missedcall=True,
+            created_on=data["log_created_on"]
+            if data.get("log_created_on", None)
+            else datetime.now(),
+        )
         db.session.add(registration)
         db.session.commit()
