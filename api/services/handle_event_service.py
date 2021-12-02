@@ -6,7 +6,7 @@ from . import call_log_event_service as call_log_event
 
 
 class HandleEventService:
-    def handle_event_service(self, form_data):
+    def handle_event_service(self, form_data, log_created_on=None):
         call_sid_exist = db.session.query(
             db.exists().where(models.CallLogEvent.call_sid == form_data["CallSid"])
         ).scalar()
@@ -39,6 +39,9 @@ class HandleEventService:
             data["pick_time"] = None
             data["end_time"] = None
             data["duration"] = None
+
+            if log_created_on:
+                data["created_on"] = log_created_on
 
             if data["call_status"] != "Missed":
                 data["telco_code"] = form_data["TelcoCode"]

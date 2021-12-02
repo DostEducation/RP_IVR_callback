@@ -6,7 +6,6 @@ from api import models, db
 class RegistrationService:
     # Create a registartion
     def create_registration(self, data):
-
         system_phone_data = models.SystemPhone.query.filter_by(
             phone=data["to_number"]
         ).first()
@@ -24,13 +23,24 @@ class RegistrationService:
         if registration_exists:
             return
 
-        registration = models.Registration(
-            user_phone=data["from_number"],
-            system_phone=data["to_number"],
-            status="pending",
-            partner_id=partner.partner_id,
-            state=system_phone_data.state,
-            has_dropped_missedcall=True,
-        )
+        if data.get("created_on", None):
+            registration = models.Registration(
+                user_phone=data["from_number"],
+                system_phone=data["to_number"],
+                status="pending",
+                partner_id=partner.partner_id,
+                state=system_phone_data.state,
+                has_dropped_missedcall=True,
+                created_on=data["created_on"],
+            )
+        else:
+            registration = models.Registration(
+                user_phone=data["from_number"],
+                system_phone=data["to_number"],
+                status="pending",
+                partner_id=partner.partner_id,
+                state=system_phone_data.state,
+                has_dropped_missedcall=True,
+            )
         db.session.add(registration)
         db.session.commit()
