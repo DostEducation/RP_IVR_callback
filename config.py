@@ -36,3 +36,5 @@ if FLASK_ENV == "development":
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 WTF_CSRF_ENABLED = True
 SECRET_KEY = os.environ.get("SECRET_KEY")
+
+RETRY_LOGS_LIMIT = os.environ.get("RETRY_LOGS_LIMIT")

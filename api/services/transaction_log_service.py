@@ -1,5 +1,5 @@
 # This file is treated as service layer
-from api import models, db
+from api import models, db, app
 import json
 
 
@@ -20,7 +20,7 @@ class TransactionLogService(object):
     def get_failed_ivr_transaction_log(self):
         failed_ivr_transaction_logs = (
             models.IvrCallbackTransactionLog.query.filter_by(processed=False)
-            .limit(1000)
+            .limit(app.config["RETRY_LOGS_LIMIT"])
             .all()
         )
 
