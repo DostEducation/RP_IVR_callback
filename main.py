@@ -41,6 +41,10 @@ def retry_failed_webhook(transaction_log_service):
     failed_ivr_logs = transaction_log_service.get_failed_ivr_transaction_log()
 
     for log in failed_ivr_logs:
+        log.attempts += 1
+        db.session.add(log)
+        db.session.commit()
+
         payload = json.loads(log.payload)
         payload["log_created_on"] = log.created_on
         processed = process_form_data(payload)
