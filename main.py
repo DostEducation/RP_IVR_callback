@@ -41,7 +41,9 @@ def retry_failed_webhook(transaction_log_service):
     failed_ivr_logs = transaction_log_service.get_failed_ivr_transaction_log()
 
     for log in failed_ivr_logs:
-        processed = process_form_data(json.loads(log.payload), log.created_on)
+        payload = json.loads(log.payload)
+        payload["log_created_on"] = log.created_on
+        processed = process_form_data(payload)
 
         if processed is not True:
             continue
@@ -51,10 +53,10 @@ def retry_failed_webhook(transaction_log_service):
         db.session.commit()
 
 
-def process_form_data(form_data, log_created_on=None):
+def process_form_data(form_data):
     try:
         service = services.HandleEventService()
-        service.handle_event_service(form_data, log_created_on)
+        service.handle_event_service(form_data)
         return True
     except:
         return False

@@ -20,7 +20,7 @@ class TransactionLogService(object):
     def get_failed_ivr_transaction_log(self):
         failed_ivr_transaction_logs = (
             models.IvrCallbackTransactionLog.query.filter_by(processed=False)
-            .limit(app.config["RETRY_LOGS_LIMIT"])
+            .limit(app.config["RETRY_LOGS_BATCH_LIMIT"])
             .all()
         )
 

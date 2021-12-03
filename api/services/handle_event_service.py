@@ -1,12 +1,12 @@
 import requests
 from flask import request
-from api import models, db
+from api import models, db, app
 from . import registration_service as registration
 from . import call_log_event_service as call_log_event
 
 
 class HandleEventService:
-    def handle_event_service(self, form_data, log_created_on=None):
+    def handle_event_service(self, form_data):
         call_sid_exist = db.session.query(
             db.exists().where(models.CallLogEvent.call_sid == form_data["CallSid"])
         ).scalar()
@@ -40,8 +40,8 @@ class HandleEventService:
             data["end_time"] = None
             data["duration"] = None
 
-            if log_created_on:
-                data["log_created_on"] = log_created_on
+            if form_data.get("log_created_on", None):
+                data["log_created_on"] = form_data["log_created_on"]
 
             if data["call_status"] != "Missed":
                 data["telco_code"] = form_data["TelcoCode"]
@@ -53,7 +53,7 @@ class HandleEventService:
                 """PickTime is available only when the call is answered.
                 The telco code for answered calls is 16.
                 """
-                if form_data["TelcoCode"] == "16":
+                if form_data["TelcoCode"] == app.config["TELCO_CODE_ANSWERED"]:
                     data["pick_time"] = form_data["PickTime"]
 
             call_log_event.CallLogEventService.create_call_log_event(self, data)
