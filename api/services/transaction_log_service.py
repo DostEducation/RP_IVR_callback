@@ -24,7 +24,7 @@ class TransactionLogService(object):
             )
             .filter(
                 models.IvrCallbackTransactionLog.attempts
-                <= app.config["MAX_RETRY_ATTEMPTS_FOR_LOGS"]
+                < app.config["MAX_RETRY_ATTEMPTS_FOR_LOGS"]
             )
             .order_by(models.IvrCallbackTransactionLog.id)
             .limit(app.config["RETRY_LOGS_BATCH_LIMIT"])
