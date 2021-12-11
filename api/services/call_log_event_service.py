@@ -1,6 +1,7 @@
 # This file is treated as service layer
 from flask import request
 from api import models, db
+from datetime import datetime
 
 
 class CallLogEventService:
@@ -20,6 +21,9 @@ class CallLogEventService:
             pick_time=data["pick_time"],
             end_time=data["end_time"],
             duration=data["duration"],
+            created_on=data["log_created_on"]
+            if data.get("log_created_on", None)
+            else datetime.now(),
         )
         db.session.add(call_log_event)
         db.session.commit()

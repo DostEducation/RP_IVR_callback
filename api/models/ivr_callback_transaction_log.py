@@ -7,3 +7,4 @@ class IvrCallbackTransactionLog(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     payload = db.Column(db.Text)
     processed = db.Column(db.Boolean, nullable=False)
+    attempts = db.Column(db.Integer, nullable=False, default="0")

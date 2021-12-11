@@ -1,5 +1,5 @@
 # This file is treated as service layer
-from api import models, db
+from api import models, db, app
 import json
 
 
@@ -16,3 +16,19 @@ class TransactionLogService(object):
         ivr_transaction_log.processed = True
         db.session.add(ivr_transaction_log)
         db.session.commit()
+
+    def get_failed_ivr_transaction_log(self):
+        failed_ivr_transaction_logs = (
+            models.IvrCallbackTransactionLog.query.filter(
+                models.IvrCallbackTransactionLog.processed == False
+            )
+            .filter(
+                models.IvrCallbackTransactionLog.attempts
+                < app.config["MAX_RETRY_ATTEMPTS_FOR_LOGS"]
+            )
+            .order_by(models.IvrCallbackTransactionLog.id)
+            .limit(app.config["RETRY_LOGS_BATCH_LIMIT"])
+            .all()
+        )
+
+        return failed_ivr_transaction_logs
