@@ -53,7 +53,7 @@ class HandleEventService:
                 """PickTime is available only when the call is answered.
                 The telco code for answered calls is 16.
                 """
-                if form_data["TelcoCode"] == app.config["TELCO_CODE_ANSWERED"]:
+                if form_data["TelcoCode"] == str(app.config["TELCO_CODE_ANSWERED"]):
                     data["pick_time"] = form_data["PickTime"]
 
             call_log_event.CallLogEventService.create_call_log_event(self, data)
