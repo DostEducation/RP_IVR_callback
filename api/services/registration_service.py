@@ -1,12 +1,11 @@
 # This file is treated as service layer
-from flask import request
 from api import models, db
+from datetime import datetime
 
 
 class RegistrationService:
     # Create a registartion
     def create_registration(self, data):
-
         system_phone_data = models.SystemPhone.query.filter_by(
             phone=data["to_number"]
         ).first()
@@ -31,6 +30,9 @@ class RegistrationService:
             partner_id=partner.partner_id,
             state=system_phone_data.state,
             has_dropped_missedcall=True,
+            created_on=data["log_created_on"]
+            if data.get("log_created_on", None)
+            else datetime.now(),
         )
         db.session.add(registration)
         db.session.commit()
