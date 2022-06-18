@@ -31,9 +31,10 @@ def callback(request):
                 jsonify(message="Currently, the system do not accept a GET request"),
                 405,
             )
-    except:
-        return jsonify(message="Something went wrong!"), 400
-
+    except Exception as e:
+        print(e)
+        return jsonify(message="Internal server error"), 500
+        
     return "Success"
 
 
