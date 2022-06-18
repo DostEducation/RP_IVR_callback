@@ -34,7 +34,7 @@ def callback(request):
     except Exception as e:
         print(e)
         return jsonify(message="Internal server error"), 500
-        
+
     return "Success"
 
 
