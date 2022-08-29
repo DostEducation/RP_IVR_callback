@@ -1,5 +1,5 @@
 # This file is treated as service layer
-from api import models, db
+from api import helpers, models, db
 from datetime import datetime
 
 
@@ -34,5 +34,4 @@ class RegistrationService:
             if data.get("log_created_on", None)
             else datetime.now(),
         )
-        db.session.add(registration)
-        db.session.commit()
+        helpers.save(registration)
