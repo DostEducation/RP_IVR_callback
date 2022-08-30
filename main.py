@@ -19,8 +19,8 @@ def callback(request):
                 transaction_log_service.create_new_ivr_transaction_log(form_data)
             )
         except Exception as e:
-            print("Issues with Transaction logs creation")       
-            print(e)       
+            print("Issues with Transaction logs creation")
+            print(e)
 
         processed = process_form_data(form_data)
 
