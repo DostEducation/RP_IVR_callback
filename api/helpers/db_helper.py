@@ -10,5 +10,5 @@ def save(data):
         print("Error: " + str(e))
         print(traceback.format_exc())
         db.session.rollback()
-    finally:
-        db.session.close()
+    # finally:
+    #     db.session.close()
