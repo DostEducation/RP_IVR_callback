@@ -1,5 +1,5 @@
 # from pprint import pprint
-from api import db, services
+from api import models, db, services
 from flask import jsonify, request
 import json
 
@@ -16,7 +16,7 @@ def callback(request):
                 return "Success"
 
             ivr_transaction_log = (
-                transaction_log_service.create_new_ivr_transaction_log(json_data)
+                transaction_log_service.create_new_ivr_transaction_log(form_data)
             )
         except Exception as e:
             print("Issues with Transaction logs creation")
