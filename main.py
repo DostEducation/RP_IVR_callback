@@ -8,6 +8,10 @@ def callback(request):
     if request.method == "POST":
         json_data = request.get_json()
         form_data = request.form
+        print('form_data')
+        print(form_data)
+        print('json_data')
+        print(json_data)
         transaction_log_service = services.TransactionLogService()
 
         try:
