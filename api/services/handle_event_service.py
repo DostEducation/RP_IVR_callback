@@ -60,5 +60,6 @@ class HandleEventService:
             if data["call_status"] == "Missed":
                 registration.RegistrationService.create_registration(self, data)
 
-        except IndexError:
+        except Exception as e:
+            print(e)
             print("Failed to log the call details")
