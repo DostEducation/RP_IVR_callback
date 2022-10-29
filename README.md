@@ -43,6 +43,10 @@ This is a cloud function that receives a callback from telephony systems to capt
     ```sh
     functions_framework --target=callback --debug
     ```
+## Unit Testing
+- Run ```flask db migrate``` to migrate requried database schema.
+- Run ```flask db seed``` to populate required data in the database.
+- Run ```pytest``` to ensure the integrity of the functions. 
 
 ## License
 GNU Affero General Public License v3.0
