@@ -24,8 +24,17 @@ This is a cloud function that receives a callback from telephony systems to capt
     python3 -m venv venv
     ```
 3. Activate the virtual environment
+   On Unix or MacOS, using the bash shell:
     ```sh
     source ./venv/bin/activate
+    ```
+    On Windows using the Command Prompt. For example it look like `c:/RP_IVR_callback/venv/Scripts/Activate.bat`:
+    ```sh
+     ./venv/bin/activate.bat
+    ```
+    On windows using PowerShell. For example it look like `c:/RP_IVR_callback/venv/Scripts/Activate.ps1`:
+    ```sh
+     ./venv/bin/activate.ps1
     ```
 4. Install the dependencies:
     ```sh
