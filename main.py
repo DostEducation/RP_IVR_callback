@@ -6,20 +6,19 @@ import json
 
 def callback(request):
     if request.method == "POST":
+        print(request)
+        print('request')
         json_data = request.get_json()
-        print("json_data")
-        print(json_data)
-        print("form_data")
         form_data = request.form
-        print(form_data)
         transaction_log_service = services.TransactionLogService()
+
         try:
             if json_data and json_data.get("type", None) == "retry_failed_log":
                 retry_failed_webhook(transaction_log_service)
                 return "Success"
 
             ivr_transaction_log = (
-                transaction_log_service.create_new_ivr_transaction_log(json_data)
+                transaction_log_service.create_new_ivr_transaction_log(form_data)
             )
         except Exception as e:
             print("Issues with Transaction logs creation")
@@ -58,11 +57,3 @@ def process_form_data(form_data):
     service = services.HandleEventService()
     service.handle_event_service(form_data)
     return True
-    # try:
-    #     service = services.HandleEventService()
-    #     service.handle_event_service(form_data)
-    #     return True
-    # except Exception as e:
-    #     print("Exception occurred while handling Event Service")
-    #     print(e)
-    #     return False
