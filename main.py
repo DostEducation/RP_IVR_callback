@@ -2,6 +2,10 @@
 from api import models, db, services
 from flask import jsonify, request
 import json
+import logging
+
+logger = logging.getLogger(name)
+logger.setLevel(logging.DEBUG)
 
 
 def callback(request):
@@ -19,8 +23,8 @@ def callback(request):
                 transaction_log_service.create_new_ivr_transaction_log(form_data)
             )
         except Exception as e:
-            print("Issues with Transaction logs creation")
-            print(e)
+            logger.error("Issues with Transaction logs creation")
+            logger.error(e)
 
         processed = process_form_data(form_data)
 
@@ -49,6 +53,7 @@ def retry_failed_webhook(transaction_log_service):
         log.attempts += 1
         db.session.add(log)
         db.session.commit()
+    logger.info("Retrying failed IVR logs: Done")
 
 
 def process_form_data(form_data):
@@ -57,6 +62,6 @@ def process_form_data(form_data):
         service.handle_event_service(form_data)
         return True
     except Exception as e:
-        print("Exception occurred while handling Event Service")
-        print(e)
+        logger.error("Exception occurred while handling Event Service")
+        logger.error(e)
         return False

@@ -1,6 +1,7 @@
 # This file is treated as service layer
 from api import helpers, models, db
 from datetime import datetime
+import logging
 
 
 class RegistrationService:
@@ -10,9 +11,25 @@ class RegistrationService:
             phone=data["to_number"]
         ).first()
 
+        if not system_phone_data:
+            logging.error(
+                "No system phone data found for phone number {}".format(
+                    data["to_number"]
+                )
+            )
+            return
+
         partner = models.PartnerSystemPhone.query.filter_by(
             system_phone_id=system_phone_data.id
         ).first()
+
+        if not partner:
+            logging.error(
+                "No partner found for system phone with id {}".format(
+                    system_phone_data.id
+                )
+            )
+            return
 
         registration_exists = db.session.query(
             db.exists().where(
@@ -21,6 +38,11 @@ class RegistrationService:
         ).scalar()
 
         if registration_exists:
+            logging.warning(
+                "Registration already exists for user phone {}".format(
+                    data["from_number"]
+                )
+            )
             return
 
         registration = models.Registration(
@@ -35,3 +57,6 @@ class RegistrationService:
             else datetime.now(),
         )
         helpers.save(registration)
+        logging.info(
+            "New registration created for user phone {}".format(data["from_number"])
+        )
