@@ -2,10 +2,7 @@
 from api import models, db, services
 from flask import jsonify, request
 import json
-import logging
-
-logger = logging.getLogger(name)
-logger.setLevel(logging.DEBUG)
+from utils.loggingutils import logger
 
 
 def callback(request):
@@ -23,8 +20,7 @@ def callback(request):
                 transaction_log_service.create_new_ivr_transaction_log(form_data)
             )
         except Exception as e:
-            logger.error("Issues with Transaction logs creation")
-            logger.error(e)
+            logger.error(f"Issues with Transaction logs creation {e}")
 
         processed = process_form_data(form_data)
 
@@ -62,6 +58,5 @@ def process_form_data(form_data):
         service.handle_event_service(form_data)
         return True
     except Exception as e:
-        logger.error("Exception occurred while handling Event Service")
-        logger.error(e)
+        logger.error(f"Exception occurred while handling Event Service{e}")
         return False

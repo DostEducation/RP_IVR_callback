@@ -3,18 +3,19 @@ from flask import request
 from api import models, db, app
 from . import registration_service as registration
 from . import call_log_event_service as call_log_event
-import logging, traceback
+from utils.loggingutils import logger
+import traceback
 
 
 class HandleEventService:
     def handle_event_service(self, form_data):
-        logging.info("Processing call event for call sid %s", form_data["CallSid"])
+        logger.info("Processing call event for call sid %s", form_data["CallSid"])
         call_sid_exist = db.session.query(
             db.exists().where(models.CallLogEvent.call_sid == form_data["CallSid"])
         ).scalar()
 
         if call_sid_exist:
-            logging.warning(
+            logger.warning(
                 "Call sid %s already exists in the database", form_data["CallSid"]
             )
             return
@@ -26,7 +27,7 @@ class HandleEventService:
         ).scalar()
 
         if not system_phone_exists:
-            logging.warning(
+            logger.warning(
                 "System phone %s does not exist in the database",
                 url_decoded_system_phone,
             )
@@ -70,5 +71,5 @@ class HandleEventService:
                 registration.RegistrationService.create_registration(self, data)
 
         except Exception as e:
-            logging.error("Failed to log the call details: %s", str(e))
-            print(traceback.format_exc())
+            logger.error("Failed to log the call details: %s", str(e))
+            logger.debug(traceback.format_exc())

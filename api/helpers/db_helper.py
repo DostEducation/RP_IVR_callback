@@ -1,16 +1,16 @@
 from api import db
 import traceback
-import logging
+from utils.loggingutils import logger
 
 
 def save(data):
     try:
         db.session.add(data)
         db.session.commit()
-        logging.info("Data saved successfully")
+        logger.info("Data saved successfully")
     except Exception as e:
-        logging.error("Error: " + str(e))
-        print(traceback.format_exc())
+        logger.error("Error: " + str(e))
+        logger.debug(traceback.format_exc())
         db.session.rollback()
     finally:
         db.session.close()

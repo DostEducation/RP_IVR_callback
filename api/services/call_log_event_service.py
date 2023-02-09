@@ -2,7 +2,8 @@
 from flask import request
 from api import helpers, models, db
 from datetime import datetime
-import logging, traceback
+from utils.loggingutils import logger
+import traceback
 
 
 class CallLogEventService:
@@ -28,8 +29,8 @@ class CallLogEventService:
         )
         try:
             helpers.save(call_log_event)
-            logging.info("Call Log Event saved successfully.")
+            logger.info("Call Log Event saved successfully.")
         except Exception as e:
-            logging.error("Error occurred while saving Call Log Event: " + str(e))
-            print(traceback.format_exc())
-            logging.warning("Rolling back the transaction.")
+            logger.error("Error occurred while saving Call Log Event: " + str(e))
+            logger.debug(traceback.format_exc())
+            logger.warning("Rolling back the transaction.")
