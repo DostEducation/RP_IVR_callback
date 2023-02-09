@@ -31,6 +31,7 @@ class CallLogEventService:
             helpers.save(call_log_event)
             logger.info("Call Log Event saved successfully.")
         except Exception as e:
-            logger.error("Error occurred while saving Call Log Event: " + str(e))
+            logger.error(
+                f"Error occurred while saving Call Log Event for user phone {call_log_event.from_number}: {e}"
+            )
             logger.debug(traceback.format_exc())
-            logger.warning("Rolling back the transaction.")

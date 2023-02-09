@@ -71,5 +71,7 @@ class HandleEventService:
                 registration.RegistrationService.create_registration(self, data)
 
         except Exception as e:
-            logger.error("Failed to log the call details: %s", str(e))
+            logger.error(
+                f"Failed to log the call details for user phone {data['from_number']}: {str(e)}"
+            )
             logger.debug(traceback.format_exc())

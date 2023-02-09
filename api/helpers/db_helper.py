@@ -9,7 +9,9 @@ def save(data):
         db.session.commit()
         logger.info("Data saved successfully")
     except Exception as e:
-        logger.error("Error: " + str(e))
+        logger.error(
+            f"Error occurred while processing the webhook. Error Message:  {e}"
+        )
         logger.debug(traceback.format_exc())
         db.session.rollback()
     finally:

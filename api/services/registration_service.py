@@ -13,9 +13,7 @@ class RegistrationService:
 
         if not system_phone_data:
             logger.error(
-                "No system phone data found for phone number {}".format(
-                    data["to_number"]
-                )
+                f"No system phone data found for phone number {data['to_number']}"
             )
             return
 
