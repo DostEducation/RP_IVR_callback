@@ -9,7 +9,6 @@ import traceback
 
 class HandleEventService:
     def handle_event_service(self, form_data):
-        logger.info("Processing call event for call sid %s", form_data["CallSid"])
         call_sid_exist = db.session.query(
             db.exists().where(models.CallLogEvent.call_sid == form_data["CallSid"])
         ).scalar()
