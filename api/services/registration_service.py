@@ -36,11 +36,6 @@ class RegistrationService:
         ).scalar()
 
         if registration_exists:
-            logger.warning(
-                "Registration already exists for user phone {}".format(
-                    data["from_number"]
-                )
-            )
             return
 
         registration = models.Registration(
@@ -55,6 +50,3 @@ class RegistrationService:
             else datetime.now(),
         )
         helpers.save(registration)
-        logger.info(
-            "New registration created for user phone {}".format(data["from_number"])
-        )

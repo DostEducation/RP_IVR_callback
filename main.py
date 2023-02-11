@@ -49,7 +49,6 @@ def retry_failed_webhook(transaction_log_service):
         log.attempts += 1
         db.session.add(log)
         db.session.commit()
-    logger.info("Retrying failed IVR logs: Done")
 
 
 def process_form_data(form_data):

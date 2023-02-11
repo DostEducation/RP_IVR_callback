@@ -29,7 +29,6 @@ class CallLogEventService:
         )
         try:
             helpers.save(call_log_event)
-            logger.info("Call Log Event saved successfully.")
         except Exception as e:
             logger.error(
                 f"Error occurred while saving Call Log Event for user phone {call_log_event.from_number}: {e}"

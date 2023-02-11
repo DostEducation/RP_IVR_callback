@@ -14,9 +14,6 @@ class HandleEventService:
         ).scalar()
 
         if call_sid_exist:
-            logger.warning(
-                "Call sid %s already exists in the database", form_data["CallSid"]
-            )
             return
 
         url_decoded_system_phone = requests.utils.unquote(form_data["To"])
@@ -26,10 +23,6 @@ class HandleEventService:
         ).scalar()
 
         if not system_phone_exists:
-            logger.warning(
-                "System phone %s does not exist in the database",
-                url_decoded_system_phone,
-            )
             return
 
         try:

@@ -11,9 +11,6 @@ class TransactionLogService(object):
                 payload=json.dumps(jsonData), processed=False
             )
             helpers.save(new_transaction_log)
-            logger.info(
-                f"New IVR transaction log created with id: {new_transaction_log.id}"
-            )
             return new_transaction_log
         except Exception as e:
             logger.error(f"Error creating new IVR transaction log: {e}")
@@ -22,9 +19,6 @@ class TransactionLogService(object):
         try:
             ivr_transaction_log.processed = True
             helpers.save(ivr_transaction_log)
-            logger.info(
-                f"IVR transaction log with id {ivr_transaction_log.id} marked as processed"
-            )
         except Exception as e:
             logger.error(f"Error marking IVR transaction log as processed: {e}")
 
@@ -41,9 +35,6 @@ class TransactionLogService(object):
                 .order_by(models.IvrCallbackTransactionLog.id)
                 .limit(app.config["RETRY_LOGS_BATCH_LIMIT"])
                 .all()
-            )
-            logger.info(
-                f"Fetched {len(failed_ivr_transaction_logs)} failed IVR transaction logs"
             )
             return failed_ivr_transaction_logs
         except Exception as e:
