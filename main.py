@@ -20,7 +20,9 @@ def callback(request):
                 transaction_log_service.create_new_ivr_transaction_log(form_data)
             )
         except Exception as e:
-            logger.error(f"Issues with Transaction logs creation: {e}")
+            logger.error(
+                f"Issues with transaction logs creation for form data {form_data}. Error message: {e}"
+            )
 
         processed = process_form_data(form_data)
 
@@ -57,5 +59,5 @@ def process_form_data(form_data):
         service.handle_event_service(form_data)
         return True
     except Exception as e:
-        logger.error(f"Exception occurred while handling Event Service: {e}")
+        logger.error(f"Exception occurred while handling webhook. Error message: {e}")
         return False
