@@ -1,6 +1,7 @@
 # This file is treated as service layer
 from api import helpers, models, db
 from datetime import datetime
+from utils.loggingutils import logger
 
 
 class RegistrationService:
@@ -10,9 +11,23 @@ class RegistrationService:
             phone=data["to_number"]
         ).first()
 
+        if not system_phone_data:
+            logger.error(
+                f"No system phone data found for phone number {data['to_number']}"
+            )
+            return
+
         partner = models.PartnerSystemPhone.query.filter_by(
             system_phone_id=system_phone_data.id
         ).first()
+
+        if not partner:
+            logger.error(
+                "No partner found for system phone with id {}".format(
+                    system_phone_data.id
+                )
+            )
+            return
 
         registration_exists = db.session.query(
             db.exists().where(

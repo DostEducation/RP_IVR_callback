@@ -1,5 +1,6 @@
 from api import db
 import traceback
+from utils.loggingutils import logger
 
 
 def save(data):
@@ -7,8 +8,10 @@ def save(data):
         db.session.add(data)
         db.session.commit()
     except Exception as e:
-        print("Error: " + str(e))
-        print(traceback.format_exc())
+        logger.error(
+            f"Error occurred while commiting data into database. Error Message:  {e}"
+        )
+        logger.debug(traceback.format_exc())
         db.session.rollback()
     finally:
         db.session.close()
