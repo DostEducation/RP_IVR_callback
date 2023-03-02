@@ -3,6 +3,8 @@ from flask import request
 from api import models, db, app
 from . import registration_service as registration
 from . import call_log_event_service as call_log_event
+from utils.loggingutils import logger
+import traceback
 
 
 class HandleEventService:
@@ -60,5 +62,8 @@ class HandleEventService:
             if data["call_status"] == "Missed":
                 registration.RegistrationService.create_registration(self, data)
 
-        except IndexError:
-            print("Failed to log the call details")
+        except Exception as e:
+            logger.error(
+                f"Failed to log the call details for user phone {data['from_number']}: {str(e)}"
+            )
+            logger.debug(traceback.format_exc())

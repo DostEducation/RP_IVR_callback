@@ -1,7 +1,9 @@
 # This file is treated as service layer
 from flask import request
-from api import models, db
+from api import helpers, models, db
 from datetime import datetime
+from utils.loggingutils import logger
+import traceback
 
 
 class CallLogEventService:
@@ -25,5 +27,10 @@ class CallLogEventService:
             if data.get("log_created_on", None)
             else datetime.now(),
         )
-        db.session.add(call_log_event)
-        db.session.commit()
+        try:
+            helpers.save(call_log_event)
+        except Exception as e:
+            logger.error(
+                f"Error occurred while saving Call Log Event for user phone {call_log_event.from_number}: {e}"
+            )
+            logger.debug(traceback.format_exc())
