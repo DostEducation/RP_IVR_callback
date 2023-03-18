@@ -57,8 +57,6 @@ class HandleEventService:
                 """
                 if form_data["TelcoCode"] == str(app.config["TELCO_CODE_ANSWERED"]):
                     if form_data.get("PickTime", None):
-                        data["pick_time"] = None
-                    else:
                         data["pick_time"] = form_data["PickTime"]
 
             call_log_event.CallLogEventService.create_call_log_event(self, data)
