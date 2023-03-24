@@ -56,7 +56,7 @@ class HandleEventService:
                 The telco code for answered calls is 16.
                 """
                 if form_data["TelcoCode"] == str(app.config["TELCO_CODE_ANSWERED"]):
-                    data["pick_time"] = form_data["PickTime"]
+                    data["pick_time"] = form_data.get("PickTime")
 
             call_log_event.CallLogEventService.create_call_log_event(self, data)
             if data["call_status"] == "Missed":
