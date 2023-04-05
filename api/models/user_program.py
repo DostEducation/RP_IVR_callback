@@ -10,7 +10,7 @@ class UserProgramQuery(BaseQuery):
         program_id = app.config["DEFAULT_PROGRAM_ID"]
         preferred_time_slot = app.config["DEFAULT_PROGRAM_TIME_CATEGORY"]
 
-        user = models.User.query.filter_by(phone=data["from_number"]).first()
+        user = models.User.query.get_user_by_phone(data["from_number"])
 
         user_program = models.UserProgram(
             user_id=user.id,

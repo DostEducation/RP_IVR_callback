@@ -3,7 +3,7 @@ from api import helpers, models, db
 
 
 class UserService:
-    def create_user(self, data):
+    def handle_user_creation(self, data):
         system_phone_data = models.SystemPhone.query.filter_by(
             phone=data["to_number"]
         ).first()
@@ -16,13 +16,6 @@ class UserService:
         ).first()
 
         if not partner:
-            return
-
-        user_exists = db.session.query(
-            db.exists().where(models.User.phone.endswith(data["from_number"][-10:]))
-        ).scalar()
-
-        if user_exists:
             return
 
         user = models.User(

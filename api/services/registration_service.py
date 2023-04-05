@@ -39,7 +39,7 @@ class RegistrationService:
         if registration_exists:
             return
 
-        user = models.User.query.filter_by(phone=data["from_number"]).first()
+        user = models.User.query.get_user_by_phone(data["from_number"])
         program_id = app.config["DEFAULT_PROGRAM_ID"]
 
         registration = models.Registration(

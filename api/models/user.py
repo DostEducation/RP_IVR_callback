@@ -1,9 +1,17 @@
 from api.mixins import TimestampMixin
 from api import db
+from flask_sqlalchemy import BaseQuery
+
+
+class UserQuery(BaseQuery):
+    def get_user_by_phone(cls, user_phone):
+        return cls.filter(User.phone.contains(user_phone[-10:])).first()
 
 
 class User(TimestampMixin, db.Model):
     __tablename__ = "user"
+    query_class = UserQuery
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     phone = db.Column(db.String(255))

@@ -61,7 +61,7 @@ class HandleEventService:
 
             call_log_event.CallLogEventService.create_call_log_event(self, data)
             if data["call_status"] == "Missed":
-                user.UserService.create_user(self, data)
+                user.UserService.handle_user_creation(self, data)
                 registration.RegistrationService.create_registration(self, data)
 
         except Exception as e:
