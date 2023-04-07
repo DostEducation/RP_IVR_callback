@@ -1,6 +1,7 @@
 import requests
 from flask import request
 from api import models, db, app
+from . import user_service as user
 from . import registration_service as registration
 from . import call_log_event_service as call_log_event
 from utils.loggingutils import logger
@@ -60,6 +61,7 @@ class HandleEventService:
 
             call_log_event.CallLogEventService.create_call_log_event(self, data)
             if data["call_status"] == "Missed":
+                user.UserService.handle_user_creation(self, data)
                 registration.RegistrationService.create_registration(self, data)
 
         except Exception as e:
