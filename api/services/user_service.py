@@ -11,11 +11,11 @@ class UserService:
         if not system_phone_data:
             return
 
-        partner = models.PartnerSystemPhone.query.filter_by(
+        partner_system_phone_data = models.PartnerSystemPhone.query.filter_by(
             system_phone_id=system_phone_data.id
         ).first()
 
-        if not partner:
+        if not partner_system_phone_data:
             return
 
         user_exists = db.session.query(
@@ -28,6 +28,6 @@ class UserService:
         user = models.User(
             state=system_phone_data.state,
             phone=data["from_number"],
-            partner_id=partner.id,
+            partner_id=partner_system_phone_data.partner_id,
         )
         helpers.save(user)
