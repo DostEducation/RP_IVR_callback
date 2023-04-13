@@ -1,5 +1,6 @@
 # This file is treated as service layer
 from api import helpers, models, db
+from utils.loggingutils import logger
 
 
 class UserService:
@@ -16,6 +17,9 @@ class UserService:
         ).first()
 
         if not partner_system_phone_data:
+            logger.error(
+                f"Failed to get partner system phone details for system phone {data['to_number']}."
+            )
             return
 
         user_exists = db.session.query(
