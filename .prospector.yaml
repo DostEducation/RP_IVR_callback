@@ -1,0 +1,47 @@
+output-format: grouped
+
+# strictness: veryhigh
+# doc-warnings: no
+# test-warnings: no
+max-line-length: 120
+# pep8: full
+
+ignore-paths:
+  - __pycache__/
+  - .github/
+  - venv/
+
+mypy:
+  run: true
+  options:
+    ignore-missing-imports: true
+    follow-imports: skip
+     --disable-error-code
+
+pylint:
+  options:
+    extension-pkg-allow-list: mypy
+  disable:
+    - cyclic-import
+    - django-not-available
+    - logging-fstring-interpolation
+    - unused-import
+    - singleton-comparison
+    - inconsistent-return-statements
+    - useless-object-inheritance
+    - logging-format-interpolation
+    - pointless-string-statement
+    - unused-import
+    - consider-using-f-string
+
+mccabe:
+  run: true
+
+pycodestyle:
+  disable:
+    - E712
+
+pyflakes:
+  disable:
+    - F401
+    - F811
