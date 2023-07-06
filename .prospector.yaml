@@ -33,6 +33,7 @@ pylint:
     - pointless-string-statement
     - unused-import
     - consider-using-f-string
+    - import-error
 
 mccabe:
   run: true
