@@ -1,7 +1,6 @@
 # This file is treated as service layer
-from api import helpers, models, db
+from api import helpers, models, app, db
 from datetime import datetime
-from api import app
 from utils.loggingutils import logger
 
 
@@ -49,6 +48,7 @@ class RegistrationService:
             program_id=program_id,
             status="pending",
             partner_id=partner.partner_id,
+            language_id=app.config["DEFAULT_LANGUAGE_ID"],
             state=system_phone_data.state,
             has_dropped_missedcall=True,
             created_on=data["log_created_on"]
