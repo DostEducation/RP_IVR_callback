@@ -16,5 +16,5 @@ requests==2.25.1
 SQLAlchemy==2.0.23
 urllib3==1.26.3
 Werkzeug==3.0.0
-watchdog==3.0.0
+watchdog==1.0.1
 google-cloud-logging==3.5.0
