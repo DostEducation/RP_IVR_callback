@@ -1,4 +1,4 @@
 # Includes dev dependencies on top of requirements.txt
 -r requirements.txt
-functions-framework==3.5.0
-pre-commit==2.11.0
+# functions-framework==3.5.0
+# pre-commit==2.11.0
