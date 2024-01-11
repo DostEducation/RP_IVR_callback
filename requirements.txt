@@ -11,7 +11,7 @@ Jinja2==3.1.2
 MarkupSafe==2.1.1
 psycopg2==2.9.9
 python-dotenv==0.15.0
-requests==2.31.0
+requests==2.25.1
 SQLAlchemy==2.0.23
 urllib3==1.26.3
 Werkzeug==3.0.0

@@ -8,7 +8,7 @@ class RegistrationService:
     # Create a registartion
     def create_registration(self, data):
         system_phone_data = models.SystemPhone.query.filter_by(
-            phone=data["to_number"][-10:]
+            phone=data["to_number"]
         ).first()
 
         if not system_phone_data:
