@@ -3,14 +3,14 @@ name: build-and-deployment
 on:
   push:
     branches:
-      - develop
+      - feature/66-fixes-for-the-upgarded-packages
       - main
 
 jobs:
   # build and test jobs will be added later one we have unit tests in place
   deploy-staging:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/feature/66-fixes-for-the-upgarded-packages'
     steps:
     - uses: 'actions/checkout@v3'
 
