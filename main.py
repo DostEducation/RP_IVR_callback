@@ -1,15 +1,22 @@
-# from pprint import pprint
-from api import models, app, db, services
-from flask import jsonify, request
+from api import app, services, helpers
+from flask import jsonify
 import json
 from utils.loggingutils import logger
 
 
 def callback(request):
     with app.app_context():
+        json_data = None
+        form_data = None
+
         if request.method == "POST":
-            json_data = request.get_json()
-            form_data = request.form
+            content_type = request.headers.get("Content-Type")
+
+            if content_type == "application/json":
+                json_data = request.get_json()
+            else:
+                form_data = request.form
+
             transaction_log_service = services.TransactionLogService()
 
             try:
@@ -50,8 +57,7 @@ def retry_failed_webhook(transaction_log_service):
         payload["log_created_on"] = log.created_on
         log.processed = process_form_data(payload)
         log.attempts += 1
-        db.session.add(log)
-        db.session.commit()
+        helpers.save(log)
 
 
 def process_form_data(form_data):
