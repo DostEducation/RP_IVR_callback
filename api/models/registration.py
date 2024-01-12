@@ -10,6 +10,7 @@ class Registration(TimestampMixin, db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     partner_id = db.Column(db.Integer, db.ForeignKey("partner.id"))
     program_id = db.Column(db.Integer, db.ForeignKey("program.id"))
+    language_id = db.Column(db.Integer)
     district = db.Column(db.String(100), nullable=True)
     state = db.Column(db.String(100), nullable=True)
     parent_type = db.Column(db.String(100), nullable=True)
