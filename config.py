@@ -1,5 +1,6 @@
 """Flask configuration."""
 import os
+from urllib.parse import quote
 
 FLASK_ENV = os.environ.get("FLASK_ENV", "development")
 
@@ -13,10 +14,12 @@ if FLASK_ENV == "development":
 TESTING = os.environ.get("TESTING")
 DEBUG = os.environ.get("DEBUG")
 
+quoted_password = quote(os.environ.get("DB_PASSWORD"))
+
 # Database configuration
 POSTGRES = {
     "user": os.environ.get("DB_USER"),
-    "password": os.environ.get("DB_PASSWORD"),
+    "password": quoted_password,
     "database": os.environ.get("DB_NAME"),
     "host": os.environ.get("DB_HOST"),
     "port": os.environ.get("DB_PORT"),
@@ -34,7 +37,6 @@ if FLASK_ENV == "staging":
         % POSTGRES
     )
 
-SQLALCHEMY_TRACK_MODIFICATIONS = True
 WTF_CSRF_ENABLED = True
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
