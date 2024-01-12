@@ -1,6 +1,5 @@
 # This file is treated as service layer
-from flask import request
-from api import helpers, models, db
+from api import helpers, models
 from datetime import datetime
 from utils.loggingutils import logger
 import traceback
