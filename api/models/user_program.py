@@ -1,7 +1,7 @@
 from api.mixins import TimestampMixin
 from api import db
 from api import app, models, helpers
-from flask_sqlalchemy.query import Query as BaseQuery
+from flask_sqlalchemy import BaseQuery
 from api.helpers.common_helper import current_ist_time
 
 

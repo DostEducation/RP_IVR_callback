@@ -1,5 +1,6 @@
 import requests
-from api import models, app
+from flask import request
+from api import models, db, app
 from . import user_service as user
 from . import registration_service as registration
 from . import call_log_event_service as call_log_event
@@ -9,16 +10,18 @@ import traceback
 
 class HandleEventService:
     def handle_event_service(self, form_data):
-        call_sid_exist = models.CallLogEvent.query.call_sid_exist(form_data)
+        call_sid_exist = db.session.query(
+            db.exists().where(models.CallLogEvent.call_sid == form_data["CallSid"])
+        ).scalar()
 
         if call_sid_exist:
             return
 
         url_decoded_system_phone = requests.utils.unquote(form_data["To"])
 
-        system_phone_exists = models.SystemPhone.query.system_phone_exists(
-            url_decoded_system_phone
-        )
+        system_phone_exists = db.session.query(
+            db.exists().where(models.SystemPhone.phone == url_decoded_system_phone)
+        ).scalar()
 
         if not system_phone_exists:
             return
