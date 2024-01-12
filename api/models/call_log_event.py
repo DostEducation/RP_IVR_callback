@@ -1,8 +1,18 @@
 from api.mixins import TimestampMixin
 from api import db
+from flask_sqlalchemy.query import Query as BaseQuery
+
+
+class CallLogEventQuery(BaseQuery):
+    def call_sid_exist(self, form_data):
+        return (
+            self.filter(CallLogEvent.call_sid == form_data["CallSid"]).first()
+            is not None
+        )
 
 
 class CallLogEvent(TimestampMixin, db.Model):
+    query_class = CallLogEventQuery
     __tablename__ = "call_log_event"
     id = db.Column(db.Integer, primary_key=True)
     call_sid = db.Column(db.String(255))
