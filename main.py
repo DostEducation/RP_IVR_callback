@@ -6,9 +6,17 @@ from utils.loggingutils import logger
 
 
 def callback(request):
+    json_data = None
+    form_data = None
+
     if request.method == "POST":
-        json_data = request.get_json()
-        form_data = request.form
+        content_type = request.headers.get("Content-Type")
+
+        if content_type == "application/json":
+            json_data = request.get_json()
+        else:
+            form_data = request.form
+
         transaction_log_service = services.TransactionLogService()
 
         try:
