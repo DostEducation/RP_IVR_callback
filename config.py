@@ -14,21 +14,20 @@ if FLASK_ENV == "development":
 TESTING = os.environ.get("TESTING")
 DEBUG = os.environ.get("DEBUG")
 
+quoted_password = quote(os.environ.get("DB_PASSWORD"))
+
 # Database configuration
 POSTGRES = {
     "user": os.environ.get("DB_USER"),
-    "password": os.environ.get("DB_PASSWORD"),
+    "password": quoted_password,
     "database": os.environ.get("DB_NAME"),
     "host": os.environ.get("DB_HOST"),
     "port": os.environ.get("DB_PORT"),
     "connection_name": os.environ.get("CONNECTION_NAME"),
 }
 
-quoted_password = quote(POSTGRES["password"])
-
 SQLALCHEMY_DATABASE_URI = (
-    "postgresql://%(user)s:%(quoted_password)s@%(host)s:%(port)s/%(database)s"
-    % POSTGRES
+    "postgresql://%(user)s:%(password)s@%(host)s:%(port)s/%(database)s" % POSTGRES
 )
 
 # For socket based connection
