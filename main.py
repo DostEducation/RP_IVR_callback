@@ -1,52 +1,52 @@
-from api import app, services, helpers
-from flask import jsonify
+# from pprint import pprint
+from api import models, db, services
+from flask import jsonify, request
 import json
 from utils.loggingutils import logger
 
 
 def callback(request):
-    with app.app_context():
-        json_data = None
-        form_data = None
+    json_data = None
+    form_data = None
 
-        if request.method == "POST":
-            content_type = request.headers.get("Content-Type")
+    if request.method == "POST":
+        content_type = request.headers.get("Content-Type")
 
-            if content_type == "application/json":
-                json_data = request.get_json()
-            else:
-                form_data = request.form
-
-            transaction_log_service = services.TransactionLogService()
-
-            try:
-                if json_data and json_data.get("type", None) == "retry_failed_log":
-                    retry_failed_webhook(transaction_log_service)
-                    return "Success"
-
-                ivr_transaction_log = (
-                    transaction_log_service.create_new_ivr_transaction_log(form_data)
-                )
-            except Exception as e:
-                logger.error(
-                    f"Issues with transaction logs creation for form data {form_data}. Error message: {e}"
-                )
-
-            processed = process_form_data(form_data)
-
-            if not processed:
-                return jsonify(message="Something went wrong!"), 400
-
-            transaction_log_service.mark_ivr_transaction_log_as_processed(
-                ivr_transaction_log
-            )
+        if content_type == "application/json":
+            json_data = request.get_json()
         else:
-            return (
-                jsonify(message="Currently, the system do not accept a GET request"),
-                405,
+            form_data = request.form
+
+        transaction_log_service = services.TransactionLogService()
+
+        try:
+            if json_data and json_data.get("type", None) == "retry_failed_log":
+                retry_failed_webhook(transaction_log_service)
+                return "Success"
+
+            ivr_transaction_log = (
+                transaction_log_service.create_new_ivr_transaction_log(form_data)
+            )
+        except Exception as e:
+            logger.error(
+                f"Issues with transaction logs creation for form data {form_data}. Error message: {e}"
             )
 
-        return "Success"
+        processed = process_form_data(form_data)
+
+        if not processed:
+            return jsonify(message="Something went wrong!"), 400
+
+        transaction_log_service.mark_ivr_transaction_log_as_processed(
+            ivr_transaction_log
+        )
+    else:
+        return (
+            jsonify(message="Currently, the system do not accept a GET request"),
+            405,
+        )
+
+    return "Success"
 
 
 def retry_failed_webhook(transaction_log_service):
@@ -57,7 +57,8 @@ def retry_failed_webhook(transaction_log_service):
         payload["log_created_on"] = log.created_on
         log.processed = process_form_data(payload)
         log.attempts += 1
-        helpers.save(log)
+        db.session.add(log)
+        db.session.commit()
 
 
 def process_form_data(form_data):
