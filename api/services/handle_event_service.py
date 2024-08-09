@@ -29,7 +29,7 @@ class HandleEventService:
 
         if user_details_exist is None:
             logger.warning(
-                f"The user details are not exist in the webhook payload {form_data}"
+                f"User details are missing in the webhook payload: {form_data}"
             )
             return
 
