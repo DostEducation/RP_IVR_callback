@@ -9,7 +9,9 @@ import traceback
 
 class HandleEventService:
     def handle_event_service(self, form_data):
-        call_sid_exist = models.CallLogEvent.query.call_sid_exist(form_data)
+        call_sid_exist = models.CallLogEvent.query.call_sid_exist(
+            form_data.get("CallSid")
+        )
 
         if call_sid_exist:
             return
@@ -21,6 +23,14 @@ class HandleEventService:
         )
 
         if not system_phone_exists:
+            return
+
+        user_details_exist = form_data.get("From")
+
+        if user_details_exist is None:
+            logger.warning(
+                f"The user details are not exist in the webhook payload {form_data}"
+            )
             return
 
         try:
