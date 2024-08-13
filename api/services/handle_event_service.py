@@ -25,9 +25,9 @@ class HandleEventService:
         if not system_phone_exists:
             return
 
-        user_details_exist = form_data.get("From")
+        user_details = form_data.get("From")
 
-        if user_details_exist is None:
+        if user_details is None:
             logger.warning(
                 f"User details are missing in the webhook payload: {form_data}"
             )
