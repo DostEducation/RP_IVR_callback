@@ -9,7 +9,6 @@ htmlcov/
 .venv
 env/
 venv/
-*.json
 
 .vscode
 .DS_Store
