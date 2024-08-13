@@ -4,11 +4,8 @@ from flask_sqlalchemy.query import Query as BaseQuery
 
 
 class CallLogEventQuery(BaseQuery):
-    def call_sid_exist(self, form_data):
-        return (
-            self.filter(CallLogEvent.call_sid == form_data["CallSid"]).first()
-            is not None
-        )
+    def call_sid_exist(self, call_sid):
+        return self.filter(CallLogEvent.call_sid == call_sid).first() is not None
 
 
 class CallLogEvent(TimestampMixin, db.Model):
